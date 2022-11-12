@@ -1,0 +1,46 @@
+#serchBox {
+    width: 25rem !important;
+}
+
+#navbarDropdownNotification i {
+    height: 20px !important;
+    width: 20px !important;
+}
+
+#navbarDropdownSettings i{
+    height: 20px !important;
+    width: 20px !important;
+}
+
+#cardBody {
+    height: 20rem !important;
+}
+
+#profileMenu {
+    height: 10rem !important;
+}
+
+#echartTotalsaleschart {
+    min-height: 320px !important;
+    width: 100% !important
+}
+
+#echartTotalorders {
+    height: 85px !important;
+    width: 115px !important
+}
+
+#echartsNewcustomers {
+    height: 180px !important;
+    width: 100% !important;
+}
+
+#echartTopcoupons {
+    height: 115px !important;
+    width: 100% !important;
+}
+
+#payingCustomerChart {
+    height: 145px !important;
+    width: 140px !important
+}
