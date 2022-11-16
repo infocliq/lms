@@ -1,41 +1,71 @@
 import React from 'react'
+import { Footer } from '../components/footer';
+import { Preloader, WelcomePreloader } from '../components/preloader';
 
 export const Dashboard = () => {
     return (
         <>
+            {/* <Preloader /> */}
+            {/* <WelcomePreloader /> */}
             <div class="content">
                 <div class="pb-5">
                     <div class="row g-4">
-                        <div class="col-12 col-xxl-6">
-                            <div class="mb-8">
-                                <h2 class="mb-2">Ecommerce Dashboard</h2>
+                        <div class="col-12 col-xxl-12">
+                            <div class="mb-6">
+                                <h2 class="mb-2">Good morning</h2>
                                 <h5 class="text-700 fw-semi-bold">Here’s what’s going on at your business right now</h5>
                             </div>
-                            <div class="row align-items-center g-4">
-                                <div class="col-12 col-md-auto">
-                                    <div class="d-flex align-items-center"><img src="assets/img/icons/illustrations/4.png" alt=""
-                                        height="46" width="46" />
-                                        <div class="ms-3">
-                                            <h4 class="mb-0">57 new orders</h4>
-                                            <p class="text-800 fs--1 mb-0">Awating processing</p>
+                            <div class="row">
+                                <div class="col-lg-3 col-xl-3 col-sm-6 mb-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center"><img src="assets/img/icons/illustrations/4.png" alt=""
+                                                height="46" width="46" />
+                                                <div class="ms-3">
+                                                    <h4 class="mb-0">57 new orders</h4>
+                                                    <p class="text-800 fs--1 mb-0">Awating processing</p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-auto">
-                                    <div class="d-flex align-items-center"><img src="assets/img/icons/illustrations/2.png" alt=""
-                                        height="46" width="46" />
-                                        <div class="ms-3">
-                                            <h4 class="mb-0">5 orders</h4>
-                                            <p class="text-800 fs--1 mb-0">On hold</p>
+                                <div class="col-lg-3 col-xl-3 col-sm-6 mb-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center"><img src="assets/img/icons/illustrations/2.png" alt=""
+                                                height="46" width="46" />
+                                                <div class="ms-3">
+                                                    <h4 class="mb-0">5 orders</h4>
+                                                    <p class="text-800 fs--1 mb-0">On hold</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-3 col-xl-3 col-sm-6 mb-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center"><img src="assets/img/icons/illustrations/3.png" alt=""
+                                                height="46" width="46" />
+                                                <div class="ms-3">
+                                                    <h4 class="mb-0">15 products</h4>
+                                                    <p class="text-800 fs--1 mb-0">Out of stock</p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-auto">
-                                    <div class="d-flex align-items-center"><img src="assets/img/icons/illustrations/3.png" alt=""
-                                        height="46" width="46" />
-                                        <div class="ms-3">
-                                            <h4 class="mb-0">15 products</h4>
-                                            <p class="text-800 fs--1 mb-0">Out of stock</p>
+                                <div class="col-lg-3 col-xl-3 col-sm-6 mb-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center"><img src="assets/img/icons/illustrations/shield.svg" alt=""
+                                                height="46" width="46" />
+                                                <div class="ms-3">
+                                                    <h4 class="mb-0">15 products</h4>
+                                                    <p class="text-800 fs--1 mb-0">Out of stock</p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -43,19 +73,19 @@ export const Dashboard = () => {
                             <hr class="bg-200 mb-6 mt-4" />
                             <div class="row flex-between-center mb-4 g-3">
                                 <div class="col-auto">
-                                    <h3>Total sells</h3>
-                                    <p class="text-700 lh-sm mb-0">Payment received across all channels</p>
+                                    {/* <h3>Total letters this year</h3> */}
+                                    <p class="text-700 lh-sm mb-0">Total letters this year</p>
                                 </div>
-                                <div class="col-8 col-sm-4"><select class="form-select form-select-sm mt-2"
+                                {/* <div class="col-8 col-sm-4"><select class="form-select form-select-sm mt-2"
                                     id="select-gross-revenue-month">
                                     <option>Mar 1 - 31, 2022</option>
                                     <option>April 1 - 30, 2022</option>
                                     <option>May 1 - 31, 2022</option>
-                                </select></div>
+                                </select></div> */}
                             </div>
                             <div class="echart-total-sales-chart" id='echartTotalsaleschart'></div>
                         </div>
-                        <div class="col-12 col-xxl-6">
+                        {/* <div class="col-12 col-xxl-6">
                             <div class="row g-3">
                                 <div class="col-12 col-md-6">
                                     <div class="card h-100">
@@ -165,9 +195,10 @@ export const Dashboard = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
+                <Footer />
             </div>
         </>
     )

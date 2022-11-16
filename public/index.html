@@ -33,6 +33,8 @@
   <link href="vendors/leaflet/leaflet.css" rel="stylesheet">
   <link href="vendors/leaflet.markercluster/MarkerCluster.css" rel="stylesheet">
   <link href="vendors/leaflet.markercluster/MarkerCluster.Default.css" rel="stylesheet">
+  <script src="https://cdn.tiny.cloud/1/gnpam50o391671ftuuriv1vj0afelcc2e3i6pxztm614ijcs/tinymce/6/tinymce.min.js"
+    referrerpolicy="origin"></script>
 </head>
 
 <body>
@@ -71,6 +73,19 @@
   <script src="vendors/leaflet.markercluster/leaflet.markercluster.js"></script>
   <script src="vendors/leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js"></script>
   <script src="assets/js/ecommerce-dashboard.js"></script>
+  <script>
+    tinymce.init({
+      selector: '#mytextarea',
+      plugins: [
+        'a11ychecker','advlist','advcode','advtable','autolink','checklist','export',
+        'lists','link','image','charmap','preview','anchor','searchreplace','visualblocks',
+        'powerpaste','fullscreen','formatpainter','insertdatetime','media','table','help','wordcount'
+      ],
+      toolbar: 'undo redo | formatpainter casechange blocks | bold italic backcolor | ' +
+        'alignleft aligncenter alignright alignjustify | ' +
+        'bullist numlist checklist outdent indent | removeformat | a11ycheck code table help'
+    });
+  </script>
 </body>
 
 </html>

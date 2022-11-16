@@ -9,27 +9,27 @@ export const Header = () => {
                         data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false"
                         aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                             class="toggle-line"></span></span></button>
-                    <a class="navbar-brand me-1 me-sm-3" href="index.html">
+                    <a class="navbar-brand me-1 me-sm-3" href="">
                         <div class="d-flex align-items-center">
-                            <div class="d-flex align-items-center"><img src="assets/img/icons/logo.png" alt="phoenix" width="32" />
-                                <p class="logo-text ms-2 d-none d-sm-block">phoenix</p>
+                            <div class="d-flex align-items-center ms-2">
+                                <img src="assets/img/icons/logo.png" alt="infocliq" width="120" />
                             </div>
                         </div>
                     </a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <div class="search-box d-none d-lg-block" id='serchBox'>
-                        <form class="position-relative" data-bs-toggle="search" data-bs-display="static"><input
+                        {/* <form class="position-relative" data-bs-toggle="search" data-bs-display="static"><input
                             class="form-control search-input search min-h-auto form-control-sm" type="search"
                             placeholder="Search..." aria-label="Search" />
                             <span class="fas fa-search search-box-icon"></span>
-                        </form>
+                        </form> */}
                     </div>
                     <ul class="navbar-nav navbar-nav-icons ms-auto flex-row">
                         <li class="nav-item dropdown">
                             <a class="nav-link" id="navbarDropdownNotification" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false"><span class="text-700" data-feather="bell"
-                                ></span></a>
+                                aria-haspopup="true" aria-expanded="false"><span class="text-700" data-feather="bell"></span>
+                            </a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link notification-indicator notification-indicator-primary" id="navbarDropdownSettings"
@@ -38,7 +38,8 @@ export const Header = () => {
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link" id="navbarDropdownNindeDots" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false"><svg width="16" height="16" viewbox="0 0 16 16" fill="none"
+                                aria-haspopup="true" aria-expanded="false">
+                                <svg width="16" height="16" viewbox="0 0 16 16" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="2" cy="2" r="2" fill="#525b75"></circle>
                                     <circle cx="2" cy="8" r="2" fill="#525b75"></circle>
