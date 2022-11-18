@@ -6,12 +6,12 @@ export async function Globalapi() {
     try {
         const categoriesRef = collection(db, "Category");
         const q = query(categoriesRef, orderBy("createdAt", "desc"));
-        onSnapshot(q, (snapshot) => {
+        onSnapshot(q, async (snapshot) => {
             const categories = snapshot.docs.map((doc) => ({
                 id: doc.id,
                 ...doc.data(),
             }));
-            return categories
+            return categories;
         });
     } catch (error) {
         console.error(error);
@@ -24,4 +24,6 @@ export async function Globalapi() {
     // } catch (error) {
     //     console.error(error);
     // }
+
+    // call code : Globalapi().then(setCategories);
 }
