@@ -13,8 +13,9 @@ const {
   deleteUser
 } = require("./user.controller");
 router.get("/", checkToken, isAdmin, getUsers);
-router.post("/register", createUser);
+router.post("/register", checkToken, isAdmin, createUser);
 router.get("/:id", checkToken, getUserByUserId);
+router.get("/admin/:id", checkToken, isAdmin, getUserByUserId);
 router.post("/login", login);
 router.patch("/update", checkToken, updateUsers);
 router.patch("/make-admin", checkToken, isAdmin, makeAdmin);

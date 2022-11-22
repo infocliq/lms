@@ -326,11 +326,23 @@
 }
 
 /* TOAST */
-#toatsPos{
+#toatsPos {
     z-index: 5 !important
 }
 
 /* INPUT ERROR */
-.inputerror{
+.inputerror {
     font-size: 13px;
+}
+
+.content .refresh-lnk {
+    text-decoration: none;
+}
+
+.content .refresh-lnk #refreshIcon {
+    transition: transform .7s ease-in-out;
+}
+
+.content .refresh-lnk #refreshIcon:hover {
+    transform: rotate(360deg);
 }

@@ -31,6 +31,12 @@ export const SideNav = () => {
                                         data-feather="layers"></span></span><span class="nav-link-text">Categories</span></div>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link mb-3" href="/users" role="button" data-bs-toggle="" aria-expanded="false">
+                                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                        data-feather="user"></span></span><span class="nav-link-text">Users</span></div>
+                                </a>
+                            </li>
                             {/* <li class="nav-item">
                                 <a class="nav-link dropdown-indicator"
                                     href="#e-commerce" role="button" data-bs-toggle="collapse" aria-expanded="false"

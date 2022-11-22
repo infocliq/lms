@@ -2,10 +2,11 @@ require("dotenv").config();
 const express = require("express");
 const fileUpload = require('express-fileupload');
 const app = express();
- 
+
 const cors = require('cors');
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: process.env.CORS_URLS,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   credentials: true,            //access-control-allow-credentials:true
   optionSuccessStatus: 200
 }
@@ -56,7 +57,7 @@ var con = mysql.createConnection({
 // con.connect(function (err) {
 //   if (err) throw err;
 //   console.log("Connected!");
-//   var sql = "CREATE TABLE users (userId INT NOT NULL AUTO_INCREMENT PRIMARY KEY, userName VARCHAR(255), email VARCHAR(255), password VARCHAR(255), profileImg VARCHAR(255), admin BOOLEAN NOT NULL DEFAULT 0, CONSTRAINT contact_name_unique UNIQUE (email))";
+//   var sql = "CREATE TABLE users (userId VARCHAR(255) NOT NULL PRIMARY KEY, userName VARCHAR(255), email VARCHAR(255), password VARCHAR(255), profileImg VARCHAR(255), status BOOLEAN NOT NULL DEFAULT true, admin BOOLEAN NOT NULL DEFAULT false, CONSTRAINT contact_name_unique UNIQUE (email, userName))";
 //   con.query(sql, function (err, result) {
 //     if (err) throw err;
 //     console.log("Table created");
@@ -67,7 +68,7 @@ var con = mysql.createConnection({
 // con.connect(function (err) {
 //   if (err) throw err;
 //   console.log("Connected!");
-//   var sql = "CREATE TABLE category (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, categoryName VARCHAR(255), status BOOLEAN NOT NULL DEFAULT 1)";
+//   var sql = "CREATE TABLE category (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, categoryName VARCHAR(255), status BOOLEAN NOT NULL DEFAULT 1, createdAt date, updatedAt date)";
 //   con.query(sql, function (err, result) {
 //     if (err) throw err;
 //     console.log("Table created");
@@ -84,7 +85,7 @@ var con = mysql.createConnection({
 // con.connect(function (err) {
 //   if (err) throw err;
 //   console.log("Connected!");
-//   var sql = "INSERT INTO users (userName, email, password, profileImg, admin) VALUES ('Planning','lms@infocliq.net', '$2b$10$L6dVIMiGiWLT.33/.IGMQuesCJAYl2ePM8h.4HjsNvY020hQcUogC', 'https://infocliq.net/assets/img/icons/favicon.png', 1)";
+//   var sql = "INSERT INTO users (userName, email, password, profileImg, status, admin) VALUES ('Admin','lms@infocliq.net', '$2b$10$L6dVIMiGiWLT.33/.IGMQuesCJAYl2ePM8h.4HjsNvY020hQcUogC', 'https://infocliq.net/assets/img/icons/favicon.png', true, true)";
 //   con.query(sql, function (err, result) {
 //     if (err) throw err;
 //     console.log("Record inserted");

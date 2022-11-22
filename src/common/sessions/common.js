@@ -4,6 +4,11 @@ export const getUser = () => {
     return sessionStorage.getItem('isAuth') || null;
 }
 
+// return the verify admin data from the session storage
+export const getIsAdmin = () => {
+    return sessionStorage.getItem('role') || null;
+}
+
 // return the admin data from the session storage
 export const getAdmin = () => {
     return sessionStorage.getItem('device') || null;
@@ -24,5 +29,9 @@ export const removeUserSession = () => {
 export const setUserSession = (token, userId, isAdmin) => {
     sessionStorage.setItem('token', token);
     sessionStorage.setItem('isAuth', userId);
-    sessionStorage.setItem('device', isAdmin)
+}
+
+// set the admin or user verify from the session storage
+export const setVerifyAdmin = (success) => {
+    sessionStorage.setItem('role', success);
 }

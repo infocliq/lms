@@ -5,25 +5,20 @@ const crypto = require('crypto')
 module.exports = {
   create: (data, callBack) => {
     const imageName = crypto.randomBytes(20).toString('hex')
-    AvatarGenerator.generate({ name: data.fullName, size: 100 }).then(avatar => {
+    const id = crypto.randomBytes(16).toString('hex')
+    AvatarGenerator.generate({ name: data.userName, size: 100 }).then(avatar => {
       AvatarGenerator.writeAvatar(avatar, "./storage/images/profiles/" + imageName + ".jpg");
     });
 
     pool.query(
-      `insert into users(userName, email, password, profileImg) 
-                values(?,?,?,?)`,
+      `insert into users(userId, userName, email, password, profileImg) 
+                values(?,?,?,?,?)`,
       [
+        userId = id,
         data.userName,
-        data.fullName,
-        data.address,
-        data.postCode,
-        data.city,
-        data.country,
-        data.gender,
         data.email,
         data.password,
-        data.phoneNumber,
-        profile = imageName + '.jpg'
+        profileImg = imageName + '.jpg'
       ],
       (error, results, fields) => {
         if (error) {
@@ -49,7 +44,7 @@ module.exports = {
 
   getUserByUserId: (id, callBack) => {
     pool.query(
-      `SELECT userId, userName, email, profileImg FROM users WHERE userId = ?`,
+      `SELECT userId, userName, email, profileImg, admin FROM users WHERE userId = ?`,
 
       [id],
       (error, results, fields) => {
@@ -60,9 +55,10 @@ module.exports = {
       }
     );
   },
+  
   getUsers: callBack => {
     pool.query(
-      `SELECT userId, userName, email, profileImg FROM users`,
+      `SELECT userId, userName, email, profileImg, status, admin FROM users`,
       [],
       (error, results, fields) => {
         if (error) {

@@ -7,20 +7,19 @@ import Login from '../authentication/login'
 import { Dashboard } from '../views/dashboard'
 import { Letters } from '../views/letters'
 import { CreateLetters } from '../views/letters/create'
-import { Departments } from '../views/departments'
+import { Users } from '../views/users'
 import { Categories } from '../views/categories'
-import { getAdmin } from '../common/sessions/common'
-// import { ErrorPage } from '../views/error/404'
+import { getIsAdmin } from '../common/sessions/common'
+import { ErrorPage } from '../views/error/404'
 
 export default () => {
-  const isAdmin = getAdmin()
+  const isAdmin = getIsAdmin()
   const navigate = useHistory()
 
   return (
     <Router>
       <Switch>
         <Route path='/login' component={Login} />
-
         <Route>
           <Main>
             <Switch>
@@ -28,13 +27,13 @@ export default () => {
                 <>
                   <Route path='/' exact component={Dashboard} />
                   <Route path='/assign-letter' exact component={CreateLetters} />
-                  <Route path='/departments' exact component={Departments} />
+                  <Route path='/users' exact component={Users} />
                   <Route path='/categories' exact component={Categories} />
                   <Route path='/letters' exact component={Letters} />
                 </>
                 : <Route path='/letters' exact component={Letters} />
               }
-              <Route path='*' exact={true} component={Letters} />
+              <Route path='*' exact={true} component={ErrorPage} />
 
 
             </Switch>

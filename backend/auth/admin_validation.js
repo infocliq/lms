@@ -7,19 +7,19 @@ module.exports = {
     if (!id) {
       return res.json({
         success: 0,
-        message: "access denied! you are not admin"
+        message: "access denied!",
       });
     }
     pool.query(
       `SELECT admin FROM users WHERE userId = ?`,
       [id],
       (error, results, fields) => {
-        if (results[0].admin === 1) {
+        if (results[0].admin) {
           next();
         } else {
           return res.json({
             success: 0,
-            message: "access denied! you are not admin"
+            message: "access denied! you are not admin",
           });
         }
       }

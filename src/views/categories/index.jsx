@@ -1,56 +1,42 @@
+import moment from "moment/moment";
 import React, { useEffect, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import { Create, Delete, List, Update } from "../../api/category";
 import { Footer } from '../components/footer';
-// import Pagination from "../../common/pagination/pagination";
-
-
-// let PageSize = 5;
+import Pagination from "../../common/pagination/pagination";
 
 export const Categories = () => {
-    const [progress, setProgress] = useState(false);
-    const [updateProgress, setUpdateProgress] = useState(false);
-    const [Error, setError] = useState({ categoryName: '', status: '' });
-    const [updateError, setUpdateError] = useState({ categoryName: '', status: '' });
     const [categories, setCategories] = useState([]);
     const [categoryId, setCategoryId] = useState();
+    const [updateData, setUpdateData] = useState({
+        id: '',
+        categoryName: '',
+        status: '',
+        updatedAt: new Date(),
+    });
 
+    
+    // PAGINATION
+    let PageSize = 5;
+    const [currentPage, setCurrentPage] = useState(1);
+    const firstPageIndex = (currentPage - 1) * PageSize;
+    const lastPageIndex = firstPageIndex + PageSize;
+    const currentItems = categories.slice(firstPageIndex, lastPageIndex);
+    console.log(currentItems);
+    
     useEffect(() => {
-       
-
+        handleRefresh()
     }, []);
-    // console.log(categories.cId);
-    // const [currentPage, setCurrentPage] = useState(1);
-
-    // const currentTableData = useMemo(() => {
-    //     const firstPageIndex = (currentPage - 1) * PageSize;
-    //     const lastPageIndex = firstPageIndex + PageSize;
-    //     return categories.slice(firstPageIndex, lastPageIndex);
-    // }, [currentPage]);
-
-
-    // CREATE FORM
-    const [formData, setFormData] = useState({
-        categoryName: "",
-        status: "",
-        createdAt: '',
-    });
-
-    // UPDATE FORM
-    const [updateFormData, setUpdateFormData] = useState({
-        categoryName: "",
-        status: "",
-        updatedAt: '',
-    });
-
-    // CREATE CHANGE
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-
+    
+    // REFRESH TABLE DATA
+    const handleRefresh = () => {
+        List().then(setCategories)
+    }
     // UPDATE CHANGE
     const handleUpdateChange = (e) => {
-        setUpdateFormData({ ...updateFormData, [e.target.name]: e.target.value });
+        setUpdateData({ ...updateData, [e.target.name]: e.target.value });
     };
+
     return (
         <>
             <div class="content">
@@ -82,20 +68,20 @@ export const Categories = () => {
                                             </tr>
                                         </thead>
                                         <tbody class="list" id="table-latest-review-body">
-                                            {categories.length === 0 ?
+                                            {currentItems.length === 0 ?
                                                 <tr>
                                                     <td colSpan={5} class="text-center">Categories Not Found</td>
                                                 </tr>
 
                                                 :
-                                                categories.map(category => (
-                                                    <tr>
+                                                currentItems.map(category => (
+                                                    <tr key={category.id}>
                                                         <td class="fs--1 align-middle ps-0">
                                                             <div class="form-check mb-0 fs-0"><input class="form-check-input" type="checkbox" /></div>
                                                         </td>
                                                         <td class="time align-middle white-space-nowrap text-600">{category.categoryName}</td>
                                                         <td class="tags align-middle review pb-2"><a class="text-decoration-none" href="#!">
-                                                            {category.status === '1' ?
+                                                            {category.status === 1 ?
 
                                                                 <span class="badge badge-phoenix fs--2 badge-phoenix-success">
                                                                     <span class="badge-label">Activated</span>
@@ -114,11 +100,11 @@ export const Categories = () => {
                                                             }
                                                         </a>
                                                         </td>
-                                                        <td class="time align-middle white-space-nowrap text-600">{category.createdAt.toDate().toDateString()}</td>
+                                                        <td class="time align-middle white-space-nowrap text-600">{moment(category.createdAt).format('MM/DD/YYYY')}</td>
                                                         <td class="time align-middle white-space-nowrap text-600">
                                                             <div class="row" id='actionButtonRow'>
                                                                 {/* EDIT BUTTON */}
-                                                                <button onClick={() => { setCategoryId(category.id) }} data-bs-toggle="modal" data-bs-target="#verticallyCentered" class="btn btn-phoenix-secondary btn-icon me-1 fs--2 text-900 px-0 me-1" data-event-propagation-prevent="data-event-propagation-prevent">
+                                                                <button onClick={() => { setUpdateData({ ...updateData, id: category.id, categoryName: category.categoryName, status: category.status }) }} data-bs-toggle="modal" data-bs-target="#verticallyCentered" class="btn btn-phoenix-secondary btn-icon me-1 fs--2 text-900 px-0 me-1" data-event-propagation-prevent="data-event-propagation-prevent">
                                                                     <svg class="svg-inline--fa fa-pen-to-square" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="pen-to-square" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M490.3 40.4C512.2 62.27 512.2 97.73 490.3 119.6L460.3 149.7L362.3 51.72L392.4 21.66C414.3-.2135 449.7-.2135 471.6 21.66L490.3 40.4zM172.4 241.7L339.7 74.34L437.7 172.3L270.3 339.6C264.2 345.8 256.7 350.4 248.4 353.2L159.6 382.8C150.1 385.6 141.5 383.4 135 376.1C128.6 370.5 126.4 361 129.2 352.4L158.8 263.6C161.6 255.3 166.2 247.8 172.4 241.7V241.7zM192 63.1C209.7 63.1 224 78.33 224 95.1C224 113.7 209.7 127.1 192 127.1H96C78.33 127.1 64 142.3 64 159.1V416C64 433.7 78.33 448 96 448H352C369.7 448 384 433.7 384 416V319.1C384 302.3 398.3 287.1 416 287.1C433.7 287.1 448 302.3 448 319.1V416C448 469 405 512 352 512H96C42.98 512 0 469 0 416V159.1C0 106.1 42.98 63.1 96 63.1H192z"></path></svg>
                                                                 </button>
                                                                 {/* EDIT MODEL */}
@@ -126,7 +112,10 @@ export const Categories = () => {
                                                                     <div class="modal-dialog modal-dialog-centered">
                                                                         <div class="modal-content">
                                                                             <div class="modal-header">
-                                                                                <h5 class="modal-title" id="verticallyCenteredModalLabel">Edit category</h5><button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs--1"></span></button>
+                                                                                <h5 class="modal-title" id="verticallyCenteredModalLabel">Edit {updateData.categoryName}</h5>
+                                                                                <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close">
+                                                                                    <span class="fas fa-times fs--1"></span>
+                                                                                </button>
                                                                             </div>
                                                                             <div class="modal-body">
                                                                                 <div class="g-3 mb-3 mt-3">
@@ -141,7 +130,7 @@ export const Categories = () => {
                                                                                             onChange={(e) => handleUpdateChange(e)}
                                                                                         />
                                                                                         <label for="floatingInputGrid">Category name</label>
-                                                                                        <span class="text-danger inputerror">{updateError.categoryName}</span>
+                                                                                        {/* <span class="text-danger inputerror">{updateError.categoryName}</span> */}
                                                                                     </div>
 
                                                                                     <div class="form-floating mb-3">
@@ -149,30 +138,23 @@ export const Categories = () => {
                                                                                             class="form-select"
                                                                                             id="floatingSelectTask"
                                                                                             name='status'
-                                                                                            defaultValue={category.status}
                                                                                             onChange={(e) => handleUpdateChange(e)}
                                                                                         >
-                                                                                            <option selected>Select</option>
+                                                                                            <option selected disabled>Select...</option>
                                                                                             <option value="1">Activated</option>
                                                                                             <option value="0">Disabled</option>
                                                                                         </select>
                                                                                         <label for="floatingSelectTask">Status</label>
-                                                                                        <span class="text-danger inputerror">{updateError.status}</span>
+                                                                                        {/* <span class="text-danger inputerror">{updateError.status}</span> */}
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="modal-footer">
-                                                                                {updateProgress === false ?
-                                                                                    <button  class="btn btn-primary" type="button">Save</button>
-                                                                                    :
-                                                                                    <button disabled class="btn btn-primary" type="button">Updating...</button>
-                                                                                }
-                                                                                <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button></div>
+                                                                            <Update formData={updateData} />
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 {/* DELETE BUTTON */}
-                                                                <button data-bs-toggle="modal" data-bs-target="#tooltipModal" class="btn btn-phoenix-secondary btn-icon fs--2 text-danger px-0">
+                                                                <button onClick={() => { setCategoryId({ ...categoryId, id: category.id }) }} data-bs-toggle="modal" data-bs-target="#tooltipModal" class="btn btn-phoenix-secondary btn-icon fs--2 text-danger px-0">
                                                                     <svg class="svg-inline--fa fa-trash" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="trash" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M135.2 17.69C140.6 6.848 151.7 0 163.8 0H284.2C296.3 0 307.4 6.848 312.8 17.69L320 32H416C433.7 32 448 46.33 448 64C448 81.67 433.7 96 416 96H32C14.33 96 0 81.67 0 64C0 46.33 14.33 32 32 32H128L135.2 17.69zM394.8 466.1C393.2 492.3 372.3 512 346.9 512H101.1C75.75 512 54.77 492.3 53.19 466.1L31.1 128H416L394.8 466.1z"></path></svg>
                                                                 </button>
                                                                 {/* DELETE MODEL */}
@@ -192,7 +174,9 @@ export const Categories = () => {
                                                                                 <div class="col-12 gy-6">
                                                                                     <div class="row g-3 justify-content-end">
                                                                                         <div class="col-auto"><button class="btn btn-sm btn-white" data-bs-dismiss="modal">Cancel</button></div>
-                                                                                        <div class="col-auto"></div>
+                                                                                        <div class="col-auto">
+                                                                                            <Delete id={categoryId} />
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -210,28 +194,28 @@ export const Categories = () => {
                                 <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
                                     <div class="col-auto d-flex">
                                         <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p>
-                                        <a class="fw-semi-bold" href="#!" data-list-view="*">View all
-                                            <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
+                                        <a onClick={handleRefresh} class="refresh-lnk fw-semi-bold" href="#!" data-list-view="*">Refresh
+                                            <span id="refreshIcon" class="fas  fa-arrows-rotate ms-1" data-fa-transform="down-1"></span>
                                         </a>
-                                        <a class="fw-semi-bold d-none" href="#!" data-list-view="less">View Less
+                                        {/* <a class="fw-semi-bold d-none" href="#!" data-list-view="less">View Less
                                             <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
-                                        </a>
+                                        </a> */}
                                     </div>
                                     <div class="col-auto d-flex">
-                                        <button class="page-link" data-list-pagination="prev">
+                                        {/* <button class="page-link" data-list-pagination="prev">
                                             <span class="fas fa-chevron-left"></span>
                                         </button>
                                         <ul class="mb-0 pagination"></ul>
                                         <button class="page-link pe-0" data-list-pagination="next">
                                             <span class="fas fa-chevron-right"></span>
-                                        </button>
-                                        {/* <Pagination
+                                        </button> */}
+                                        <Pagination
                                             className="pagination-bar"
                                             currentPage={currentPage}
                                             totalCount={categories.length}
                                             pageSize={PageSize}
                                             onPageChange={page => setCurrentPage(page)}
-                                        /> */}
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -240,46 +224,7 @@ export const Categories = () => {
                         <div class="col-xl-4 card">
                             <div class="card-body">
                                 <h4 class="card-title">Create new category</h4>
-                                <div class="g-3 mb-3 mt-3">
-                                    <div class="form-floating mb-3">
-                                        <input
-                                            class="form-control"
-                                            id="floatingInputGrid"
-                                            type="text"
-                                            placeholder="Project title"
-                                            name='categoryName'
-                                            alue={formData.categoryName}
-                                            onChange={(e) => handleChange(e)}
-                                        />
-                                        <label for="floatingInputGrid">Category name</label>
-                                        <span class="text-danger inputerror">{Error.categoryName}</span>
-                                    </div>
-
-                                    <div class="form-floating mb-3">
-                                        <select
-                                            class="form-select"
-                                            id="floatingSelectTask"
-                                            name='status'
-                                            value={formData.status}
-                                            onChange={(e) => handleChange(e)}
-                                        >
-                                            <option selected>Select</option>
-                                            <option value="1">Activated</option>
-                                            <option value="0">Disabled</option>
-                                        </select>
-                                        <label for="floatingSelectTask">Status</label>
-                                        <span class="text-danger inputerror">{Error.status}</span>
-                                    </div>
-                                    <div class="row g-3 justify-content-end">
-                                        <div class="col-auto">
-                                            {progress === false ?
-                                                <button  class="btn btn-sm btn-primary">Create new</button>
-                                                :
-                                                <button disabled class="btn btn-sm btn-primary">Submitting...</button>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
+                                <Create />
                             </div>
                         </div>
                     </div>

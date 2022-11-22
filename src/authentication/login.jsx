@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import { getToken, setUserSession } from "../common/sessions/common";
+import { getIsAdmin, getToken, getUser, setUserSession } from "../common/sessions/common";
 import { baseUrl } from "../constants/constants"
 
 export default function Login() {
@@ -10,10 +10,13 @@ export default function Login() {
   const navigate = useHistory();
   const [values, setValues] = useState({ email: "", password: "" });
   const token = getToken();
+  const userId = getUser()
+  const isAdmin = getIsAdmin()
+
   useEffect(() => {
-    // if (token) {
-    //   navigate.push('/')
-    // }
+    if (token && userId && isAdmin) {
+      navigate.push('/letters')
+    }
   });
 
   const handleSubmit = async (event) => {
@@ -30,12 +33,13 @@ export default function Login() {
       if (data) {
         if (data.success === 1) {
           setLoading(false);
-          setUserSession(data.token, data.userId, data.isAdmin);
-          console.log(data);
-          navigate.push('/');
-        } else {
+          setUserSession(data.token, data.userId);
+          navigate.push('/letters');
+        }
+        else {
           setLoading(false);
           toast.error('Invalid email or password', {})
+          setValues({ ...values, password: "" })
         }
       }
 
@@ -79,6 +83,7 @@ export default function Login() {
                       id="email"
                       type="email"
                       placeholder="Enter the email"
+                      value={values.email}
                       name="email"
                       onChange={(e) =>
                         setValues({ ...values, [e.target.name]: e.target.value })
@@ -95,6 +100,7 @@ export default function Login() {
                       type="password"
                       placeholder="Password"
                       name="password"
+                      value={values.password}
                       onChange={(e) =>
                         setValues({ ...values, [e.target.name]: e.target.value })
                       }

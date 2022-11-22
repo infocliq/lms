@@ -3,17 +3,15 @@ const { checkToken } = require("../../auth/token_validation");
 const { isAdmin } = require("../../auth/admin_validation");
 
 const {
-    // getCategories,
+    getCategories,
     createCategory,
-    // updateCategory,
-    // deleteCategory,
-    // getCategoriesById,
+    updateCategory,
+    deleteCategory,
 } = require("./categories.controller");
 
-// router.get("/", checkToken, getCategories);
+router.get("/", checkToken, isAdmin, getCategories);
 router.post("/create", checkToken, isAdmin, createCategory);
-// router.patch("/", checkToken, isAdmin, updateCategory);
-// router.get("/:id", checkToken, isAdmin, getCategoriesById);
-// router.delete("/", checkToken, isAdmin, deleteCategory);
+router.patch("/", checkToken, isAdmin, updateCategory);
+router.delete("/", checkToken, isAdmin, deleteCategory);
 
 module.exports = router;

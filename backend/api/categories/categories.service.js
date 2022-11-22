@@ -4,11 +4,13 @@ module.exports = {
     create: (data, callBack) => {
 
         pool.query(
-            `insert into category(categoryName, status) 
-                values(?,?)`,
+            `insert into category(categoryName, status, createdAt, updatedAt) 
+                values(?,?,?,?)`,
             [
                 data.categoryName,
                 data.status,
+                data.createdAt,
+                data.updatedAt
             ],
             (error, results, fields) => {
                 if (error) {
@@ -19,54 +21,49 @@ module.exports = {
         );
     },
 
-    // getAddresses: (id, callBack) => {
-    //     pool.query(
-    //         `SELECT * FROM address WHERE userId = ?`,
-    //         [id],
-    //         (error, results, fields) => {
-    //             if (error) {
-    //                 callBack(error);
-    //             }
-    //             return callBack(null, results);
-    //         }
-    //     );
-    // },
+    getAll: callBack => {
+        pool.query(
+            `SELECT * FROM category  ORDER BY id DESC`,
+            [],
+            (error, results, fields) => {
+                if (error) {
+                    callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
 
-    // update: (data, callBack) => {
-    //     pool.query(
-    //         `UPDATE address SET fullName=?, address=?, city=?, postCode=?, country=?, phoneNumber=? WHERE userId = ? AND id = ?`,
-    //         [
-    //             data.fullName,
-    //             data.address,
-    //             data.city,
-    //             data.postCode,
-    //             data.country,
-    //             data.phoneNumber,
-    //             data.userId,
-    //             data.id
-    //         ],
-    //         (error, results, fields) => {
-    //             if (error) {
-    //                 callBack(error);
-    //             }
-    //             return callBack(null, results[0]);
-    //         }
-    //     );
-    // },
+    update: (data, callBack) => {
+        pool.query(
+            `UPDATE category SET categoryName=?, status=?, updatedAt=? WHERE id = ?`,
+            [
+                data.categoryName,
+                data.status,
+                data.updatedAt,
+                data.id
+            ],
+            (error, results, fields) => {
+                if (error) {
+                    callBack(error);
+                }
+                return callBack(null, results[0]);
+            }
+        );
+    },
 
-    // deleteAddress: (data, callBack) => {
-    //     pool.query(
-    //         `DELETE FROM address WHERE userId = ? AND id = ?`,
-    //         [
-    //             data.userId,
-    //             data.id
-    //         ],
-    //         (error, results, fields) => {
-    //             if (error) {
-    //                 callBack(error);
-    //             }
-    //             return callBack(null, results[0]);
-    //         }
-    //     );
-    // }
+    deleteById: (data, callBack) => {
+        pool.query(
+            `DELETE FROM category WHERE id = ?`,
+            [
+                data.id
+            ],
+            (error, results, fields) => {
+                if (error) {
+                    callBack(error);
+                }
+                return callBack(null, results[0]);
+            }
+        );
+    }
 };

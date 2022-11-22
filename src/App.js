@@ -5,7 +5,6 @@ import { Header } from './views/components/header'
 import Routers from "./router";
 import { baseUrl } from './constants/constants';
 import {
-  bootstrapMin,
   popperMin,
   anchorJs,
   Is,
@@ -29,13 +28,12 @@ function App() {
   return (
     <div className="App">
       <Helmet>
-        {/* <script src={baseUrl + bootstrapMin} type="text/javascript" /> */}
         <script src={baseUrl + anchorJs} type="text/javascript" />
         <script src={baseUrl + popperMin} type="text/javascript" />
         <script src={baseUrl + Is} type="text/javascript" />
         <script src={baseUrl + fontAwesome} type="text/javascript" />
         <script src={baseUrl + lodaSh} type="text/javascript" />
-        <script src={baseUrl + httpsPolyfill} type="text/javascript" />
+        <script src={httpsPolyfill} type="text/javascript" />
         <script src={baseUrl + List} type="text/javascript" />
         <script src={baseUrl + featherIcons} type="text/javascript" />
         <script src={baseUrl + dayJs} type="text/javascript" />

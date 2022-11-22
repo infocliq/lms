@@ -1,8 +1,8 @@
 const {
     create,
-    // update,
-    // getAll,
-    // deleteById,
+    update,
+    getAll,
+    deleteById,
 } = require("./categories.service");
 
 module.exports = {
@@ -23,59 +23,50 @@ module.exports = {
         });
     },
 
-    // getAddressesByUser: (req, res) => {
-    //     const id = req.params.id;
-    //     getAddresses(id, (err, results) => {
-    //         if (err) {
-    //             console.log(err);
-    //             return;
-    //         }
-    //         if (!results) {
-    //             return res.json({
-    //                 success: 0,
-    //                 message: "Addresses not Found"
-    //             });
-    //         }
-    //         results.password = undefined;
-    //         return res.json({
-    //             success: 1,
-    //             data: results
-    //         });
-    //     });
-    // },
+    getCategories: (req, res) => {
+        getAll((err, results) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            return res.json({
+                success: 1,
+                categories: results
+            });
+        });
+    },
 
+    updateCategory: (req, res) => {
+        const body = req.body;
+        update(body, (err, results) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            return res.json({
+                success: 1,
+                message: "Updated successfully"
+            });
+        });
+    },
 
-    // updateAddress: (req, res) => {
-    //     const body = req.body;
-    //     update(body, (err, results) => {
-    //         if (err) {
-    //             console.log(err);
-    //             return;
-    //         }
-    //         return res.json({
-    //             success: 1,
-    //             message: "Updated successfully"
-    //         });
-    //     });
-    // },
-
-    // deleteAddressByUser: (req, res) => {
-    //   const data = req.body;
-    //   deleteAddress(data, (err, results) => {
-    //     if (err) {
-    //       console.log(err);
-    //       return;
-    //     }
-    //     // if (!results) {
-    //     //   return res.json({
-    //     //     success: 0,
-    //     //     message: "record not found"
-    //     //   });
-    //     // }
-    //     return res.json({
-    //       success: 1,
-    //       message: "Deleted successfully"
-    //     });
-    //   });
-    // }
+    deleteCategory: (req, res) => {
+        const data = req.body;
+        deleteById(data, (err, results) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            // if (!results) {
+            //   return res.json({
+            //     success: 0,
+            //     message: "record not found"
+            //   });
+            // }
+            return res.json({
+                success: 1,
+                message: "Deleted successfully"
+            });
+        });
+    }
 };
