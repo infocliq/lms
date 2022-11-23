@@ -14,12 +14,12 @@ const {
 } = require("./user.controller");
 router.get("/", checkToken, isAdmin, getUsers);
 router.post("/register", checkToken, isAdmin, createUser);
-router.get("/:id", checkToken, getUserByUserId);
+router.get("/:id", checkToken, isAdmin, getUserByUserId);
 router.get("/admin/:id", checkToken, isAdmin, getUserByUserId);
 router.post("/login", login);
-router.patch("/update", checkToken, updateUsers);
+router.patch("/update", checkToken, isAdmin, updateUsers);
 router.patch("/make-admin", checkToken, isAdmin, makeAdmin);
 router.get("/search/:keywords", checkToken, isAdmin, search);
-router.delete("/delete", checkToken, deleteUser);
+router.delete("/delete", checkToken, isAdmin, deleteUser);
 
 module.exports = router;

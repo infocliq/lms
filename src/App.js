@@ -1,9 +1,6 @@
 import './App.css';
-import { Dashboard } from './views/dashboard'
-import { SideNav } from './views/components/sidenav'
-import { Header } from './views/components/header'
 import Routers from "./router";
-import { baseUrl } from './constants/constants';
+import { cBseUrl } from './constants/constants';
 import {
   popperMin,
   anchorJs,
@@ -28,22 +25,24 @@ function App() {
   return (
     <div className="App">
       <Helmet>
-        <script src={baseUrl + anchorJs} type="text/javascript" />
-        <script src={baseUrl + popperMin} type="text/javascript" />
-        <script src={baseUrl + Is} type="text/javascript" />
-        <script src={baseUrl + fontAwesome} type="text/javascript" />
-        <script src={baseUrl + lodaSh} type="text/javascript" />
+        <script src={cBseUrl + anchorJs} type="text/javascript" />
+        <script src={cBseUrl + popperMin} type="text/javascript" />
+        <script src={cBseUrl + Is} type="text/javascript" />
+        <script src={cBseUrl + fontAwesome} type="text/javascript" />
+        <script src={cBseUrl + lodaSh} type="text/javascript" />
+        <script src={cBseUrl + List} type="text/javascript" />
+        <script src={cBseUrl + featherIcons} type="text/javascript" />
+        <script src={cBseUrl + dayJs} type="text/javascript" />
+        <script src={cBseUrl + phoenix} type="text/javascript" />
+        <script src={cBseUrl + eCharts} type="text/javascript" />
+        <script src={cBseUrl + chart} type="text/javascript" />
+        <script src={cBseUrl + leaFlet} type="text/javascript" />
+        <script src={cBseUrl + List} type="text/javascript" />
+        <script src={cBseUrl + leafletMarkercluster} type="text/javascript" />
+        <script src={cBseUrl + leafletTilelayer} type="text/javascript" />
+        <script src={cBseUrl + ecommerceDashboard} type="text/javascript" />
         <script src={httpsPolyfill} type="text/javascript" />
-        <script src={baseUrl + List} type="text/javascript" />
-        <script src={baseUrl + featherIcons} type="text/javascript" />
-        <script src={baseUrl + dayJs} type="text/javascript" />
-        <script src={baseUrl + phoenix} type="text/javascript" />
-        <script src={baseUrl + eCharts} type="text/javascript" />
-        <script src={baseUrl + chart} type="text/javascript" />
-        <script src={baseUrl + leaFlet} type="text/javascript" />
-        <script src={baseUrl + leafletMarkercluster} type="text/javascript" />
-        <script src={baseUrl + leafletTilelayer} type="text/javascript" />
-        <script src={baseUrl + ecommerceDashboard} type="text/javascript" />
+
       </Helmet>
       <Routers />
     </div>

@@ -49,7 +49,7 @@ module.exports = {
       if (result) {
         results.password = undefined;
         const jsontoken = sign({ result: results }, process.env.JWT_KEY, {
-          expiresIn: "1h"
+          expiresIn: "24h"
         });
         return res.json({
           success: 1,
@@ -103,8 +103,8 @@ module.exports = {
 
   updateUsers: (req, res) => {
     const body = req.body;
-    const salt = genSaltSync(10);
-    body.password = hashSync(body.password, salt);
+    // const salt = genSaltSync(10);
+    // body.password = hashSync(body.password, salt);
     updateUser(body, (err, results) => {
       if (err) {
         console.log(err);

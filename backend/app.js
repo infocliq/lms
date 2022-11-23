@@ -14,6 +14,7 @@ app.use(cors(corsOptions));
 
 const userRouter = require("./api/users/user.router");
 const categoryRouter = require("./api/categories/categories.router");
+const departmentRoter = require("./api/departments/departments.router");
 
 app.use(express.json());
 
@@ -30,6 +31,7 @@ app.use(express.static('storage/images'))
 
 app.use("/api/users", userRouter);
 app.use("/api/category", categoryRouter);
+app.use("/api/departments", departmentRoter);
 
 const port = process.env.PORT || 4000;
 
@@ -57,7 +59,7 @@ var con = mysql.createConnection({
 // con.connect(function (err) {
 //   if (err) throw err;
 //   console.log("Connected!");
-//   var sql = "CREATE TABLE users (userId VARCHAR(255) NOT NULL PRIMARY KEY, userName VARCHAR(255), email VARCHAR(255), password VARCHAR(255), profileImg VARCHAR(255), status BOOLEAN NOT NULL DEFAULT true, admin BOOLEAN NOT NULL DEFAULT false, CONSTRAINT contact_name_unique UNIQUE (email, userName))";
+//   var sql = "CREATE TABLE users (userId VARCHAR(255) NOT NULL PRIMARY KEY, userName VARCHAR(255), email VARCHAR(255), department VARCHAR(255), password VARCHAR(255), profileImg VARCHAR(255), status BOOLEAN NOT NULL DEFAULT true, admin BOOLEAN NOT NULL DEFAULT false, createdAt date, updatedAt date, CONSTRAINT contact_name_unique UNIQUE (email, userName))";
 //   con.query(sql, function (err, result) {
 //     if (err) throw err;
 //     console.log("Table created");
@@ -76,6 +78,29 @@ var con = mysql.createConnection({
 // });
 
 
+//Create department table
+// con.connect(function (err) {
+//   if (err) throw err;
+//   console.log("Connected!");
+//   var sql = "CREATE TABLE department (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, departmentName VARCHAR(255), createdAt date, updatedAt date)";
+//   con.query(sql, function (err, result) {
+//     if (err) throw err;
+//     console.log("Table created");
+//   });
+// });
+
+//Create letters table
+// con.connect(function (err) {
+//   if (err) throw err;
+//   console.log("Connected!");
+//   var sql = "CREATE TABLE letters (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, issuedDate DATE, registerPostId VARCHAR(255), letterFrom VARCHAR(255), subject VARCHAR(255), department VARCHAR(255), status VARCHAR(20), priority VARCHAR(20), description VARCHAR(255), createdAt DATE, updatedAt DATE)";
+//   con.query(sql, function (err, result) {
+//     if (err) throw err;
+//     console.log("Table created");
+//   });
+// });
+
+
 
 
 
@@ -85,7 +110,7 @@ var con = mysql.createConnection({
 // con.connect(function (err) {
 //   if (err) throw err;
 //   console.log("Connected!");
-//   var sql = "INSERT INTO users (userName, email, password, profileImg, status, admin) VALUES ('Admin','lms@infocliq.net', '$2b$10$L6dVIMiGiWLT.33/.IGMQuesCJAYl2ePM8h.4HjsNvY020hQcUogC', 'https://infocliq.net/assets/img/icons/favicon.png', true, true)";
+//   var sql = "INSERT INTO users (userName, email, department, password, profileImg, status, admin) VALUES ('Admin','lms@infocliq.net', 'superAdmin', '$2b$10$L6dVIMiGiWLT.33/.IGMQuesCJAYl2ePM8h.4HjsNvY020hQcUogC', 'https://infocliq.net/assets/img/icons/favicon.png', true, true)";
 //   con.query(sql, function (err, result) {
 //     if (err) throw err;
 //     console.log("Record inserted");

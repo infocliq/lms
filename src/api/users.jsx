@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { getToken, getUser } from "../common/sessions/common";
 import { baseUrl } from "../constants/constants";
+import Select from "react-select";
 
 const token = getToken()
 const userId = getUser()
@@ -15,8 +16,13 @@ const headers = {
 // CREATE DATA
 export const Create = () => {
     const [progress, setProgress] = useState(false);
-    const [Error, setError] = useState({ userName: '', email: '', password: '' });
+    const [Error, setError] = useState({ userName: '', email: '', password: '', department: '' });
+    const [selectedDepartment, setSelectedDepartment] = useState("none");
+    const [options, setOption] = useState([]);
 
+    useEffect(() => {
+        fetchData()
+    }, [])
     // CREATE CHANGE
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,10 +32,35 @@ export const Create = () => {
     const [formData, setFormData] = useState({
         userName: "",
         email: "",
+        department: "",
         password: "",
         createdAt: new Date(),
         updatedAt: new Date(),
     });
+
+    const handleTypeSelectDepartment = e => {
+        setSelectedDepartment(e.value)
+        setFormData({ ...formData, department: e.value })
+    };
+
+    const fetchData = async () => {
+        axios
+            .get(baseUrl + '/api/departments', {
+                headers
+            }).then((response) => {
+                const { data } = response;
+                if (response.status === 200) {
+                    const options = data.categories.map(department => ({
+                        value: department.departmentName,
+                        label: department.departmentName
+                    }))
+                    setOption(options)
+                } else {
+                    // console.log('ERROR' + error);
+                }
+            })
+            .catch((error) => console.log(error));
+    };
 
     const handleSubmit = async (event) => {
         setProgress(true)
@@ -41,11 +72,13 @@ export const Create = () => {
         } else if (!formData.email) {
             setProgress(false)
             setError({ ...formData, email: 'Email is required' })
+        } else if (!formData.department) {
+            setProgress(false)
+            setError({ ...formData, department: 'Department is required' })
         } else if (!formData.password) {
             setProgress(false)
             setError({ ...formData, password: 'Password is required' })
-        }
-        else {
+        } else {
 
             try {
                 const { data } = await axios.post(baseUrl + '/api/users/register', {
@@ -103,6 +136,25 @@ export const Create = () => {
                 </div>
 
                 <div class="form-floating mb-3">
+                    <Select
+                        class="form-control basic-select"
+                        options={options}
+                        required
+                        name="department"
+                        onChange={handleTypeSelectDepartment}
+                        value={options.filter(function (option) {
+                            return option.value === selectedDepartment;
+                        })}
+                        label="Single select"
+
+                    />
+                    {formData.department === "" ?
+                        <label for="floatingSelectAssignees">Department </label>
+                        : ''}
+                    <span class="text-danger inputerror">{Error.department}</span>
+                </div>
+
+                <div class="form-floating mb-3">
                     <input
                         class="form-control"
                         id="password"
@@ -138,7 +190,6 @@ export async function List() {
             baseUrl + "/api/users", {
             headers
         });
-        console.log(data.users);
         return data.users
 
     } catch (ex) {
@@ -147,3 +198,107 @@ export async function List() {
 }
 
 
+// UPDATE DATA
+export const Update = (formData) => {
+    const [progress, setProgress] = useState(false);
+
+    useEffect(() => {
+    }, [])
+
+    const handleSubmit = async (event) => {
+        setProgress(true)
+        const updateData = formData.formData
+        event.preventDefault()
+
+        if (!updateData.userName) {
+            setProgress(false)
+            toast.error('Username is required', {})
+        } else if (!updateData.email) {
+            setProgress(false)
+            toast.error('Status is required', {})
+        } else if (!updateData.department) {
+            setProgress(false)
+            toast.error('Department is required', {})
+        } else if (!updateData.status) {
+            setProgress(false)
+            toast.error('Status is required', {})
+        } else {
+
+            try {
+                const { data } = await axios.patch(baseUrl + '/api/users/update', {
+                    ...updateData
+                }, {
+                    withCredentials: true,
+                    headers
+                });
+                if (data) {
+                    if (data.success === 1) {
+                        toast.success('User updated successfully', {})
+                        setProgress(false)
+                    } else {
+                        toast.error(data.message, {})
+                        setProgress(false)
+                    }
+                }
+            } catch (error) {
+
+            }
+        }
+    }
+    return (
+        <>
+            <div class="modal-footer">
+                {progress === false ?
+                    <button onClick={handleSubmit} class="btn btn-primary" type="button">Save</button>
+                    :
+                    <button disabled class="btn btn-primary" type="button">Updating...</button>
+                }
+                <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </>
+    )
+}
+
+
+// DELETE DATA
+export const Delete = (id) => {
+    const [progress, setProgress] = useState(false);
+
+    useEffect(() => {
+    }, [])
+
+    const handleDelete = async (event) => {
+        setProgress(true)
+
+        event.preventDefault()
+
+        const Id = id.id.id
+
+        try {
+            const { data } = await axios.delete(baseUrl + '/api/users/delete', {
+                data: { userId: Id },
+                headers
+            });
+            if (data) {
+                if (data.success === 1) {
+                    toast.success(data.message, {})
+                    setProgress(false)
+                } else {
+                    toast.error(data.message, {})
+                    setProgress(false)
+                }
+            }
+        } catch (error) {
+
+        }
+    }
+    return (
+        <>
+            {!progress ?
+                <button onClick={handleDelete} data-bs-dismiss="modal" class="btn btn-sm btn-red">Delete</button>
+                :
+                <button disabled data-bs-dismiss="modal" class="btn btn-sm btn-red">Deleteing...</button>
+            }
+        </>
+    )
+}

@@ -24,27 +24,30 @@ export const CreateLetters = () => {
                             <form class="row g-3 mb-6">
                                 <div class="col-sm-6 col-md-8">
                                     <div class="form-floating">
-                                        <input class="form-control" id="floatingInputGrid" type="text" placeholder="Project title" />
-                                        <label for="floatingInputGrid">Subject</label></div>
-                                </div>
-                                <div class="col-sm-6 col-md-4">
-                                    <div class="form-floating">
-                                        <select class="form-select" id="floatingSelectTask">
-                                            <option selected="selected">Select a department</option>
-                                            <option value="1">technical</option>
-                                            <option value="2">external</option>
-                                            <option value="3">organizational</option>
-                                        </select><label for="floatingSelectTask">Department</label>
+                                        <input class="form-control" id="floatingInputGrid" type="text" placeholder="Subject" />
+                                        <label for="floatingInputGrid">Subject</label>
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-md-4">
                                     <div class="form-floating">
-                                        <select class="form-select" id="floatingSelectPrivacy">
-                                            <option value="1">Added</option>
-                                            <option value="2">Data Privacy Two</option>
-                                            <option value="3">Data Privacy Three</option>
-                                        </select>
-                                        <label for="floatingSelectPrivacy">Status</label>
+                                        <input class="form-control" id="floatingInputGrid" type="text" placeholder="From" />
+                                        <label for="floatingInputGrid">From</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-4">
+                                    <div class="form-floating">
+                                        <input class="form-control" id="basic-form-dob" type="date" />
+                                        <label for="floatingSelectPrivacy">Date</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-4">
+                                    <div class="form-floating">
+                                        <select class="form-select" id="floatingSelectAssignees">
+                                            <option selected="selected">Select... </option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </select><label for="floatingSelectAssignees">Department </label>
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-md-4">
@@ -59,14 +62,31 @@ export const CreateLetters = () => {
                                 </div>
                                 <div class="col-sm-6 col-md-4">
                                     <div class="form-floating">
-                                        <select class="form-select" id="floatingSelectAssignees">
-                                            <option selected="selected">Select a category </option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                        </select><label for="floatingSelectAssignees">Category </label>
+                                        <select class="form-select" id="floatingSelectTeam">
+                                            <option selected="selected">Select...</option>
+                                            <option value="1">Team One</option>
+                                            <option value="2">Team Two</option>
+                                            <option value="3">Team Three</option>
+                                        </select>
+                                        <label for="floatingSelectTeam">Status </label></div>
+                                </div>
+                                <div class="col-sm-6 col-md-4">
+                                    <div class="form-floating">
+                                        <select class="form-select" id="floatingSelectTeam">
+                                            <option selected="selected">Select...</option>
+                                            <option value="1">Team One</option>
+                                            <option value="2">Team Two</option>
+                                            <option value="3">Team Three</option>
+                                        </select>
+                                        <label for="floatingSelectTeam">Category </label></div>
+                                </div>
+                                <div class="col-sm-6 col-md-4">
+                                    <div class="form-floating">
+                                        <input class="form-control" id="floatingInputGrid" type="text" placeholder="Register post number" />
+                                        <label for="floatingInputGrid">Register number</label>
                                     </div>
                                 </div>
+
 
                                 <div class="col-12 gy-6">
                                     <div class="form-floating">

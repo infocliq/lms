@@ -199,8 +199,8 @@
     text-justify: inter-word;
 } */
 #deletePopupIcon {
-    height: 80px;
-    width: 80px;
+    height: 45px;
+    width: 50px;
     margin-top: -30px;
 }
 
@@ -345,4 +345,15 @@
 
 .content .refresh-lnk #refreshIcon:hover {
     transform: rotate(360deg);
+}
+
+.form-floating .css-6j8wv5-Input input {
+    height: calc(1.875rem + 2px) !important;
+}
+
+.form-floating .css-14el2xx-placeholder {
+    color: #ffffff !important;
+    font-size: 0.6rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
 }

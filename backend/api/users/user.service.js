@@ -11,14 +11,17 @@ module.exports = {
     });
 
     pool.query(
-      `insert into users(userId, userName, email, password, profileImg) 
-                values(?,?,?,?,?)`,
+      `insert into users(userId, userName, email, department, password, profileImg, createdAt, updatedAt) 
+                values(?,?,?,?,?,?,?,?)`,
       [
         userId = id,
         data.userName,
         data.email,
+        data.department,
         data.password,
-        profileImg = imageName + '.jpg'
+        profileImg = imageName + '.jpg',
+        data.createdAt,
+        data.updatedAt
       ],
       (error, results, fields) => {
         if (error) {
@@ -44,7 +47,7 @@ module.exports = {
 
   getUserByUserId: (id, callBack) => {
     pool.query(
-      `SELECT userId, userName, email, profileImg, admin FROM users WHERE userId = ?`,
+      `SELECT userId, userName, email, department, profileImg, admin FROM users WHERE userId = ?`,
 
       [id],
       (error, results, fields) => {
@@ -55,10 +58,10 @@ module.exports = {
       }
     );
   },
-  
+
   getUsers: callBack => {
     pool.query(
-      `SELECT userId, userName, email, profileImg, status, admin FROM users`,
+      `SELECT * FROM users ORDER BY createdAt DESC`,
       [],
       (error, results, fields) => {
         if (error) {
@@ -71,18 +74,13 @@ module.exports = {
 
   updateUser: (data, callBack) => {
     pool.query(
-      `UPDATE users SET userName=?, fullName=?, address=?, city=?, postCode=?, country=?, gender=?, email=?, password=?, phoneNumber=? WHERE userId = ?`,
+      `UPDATE users SET userName=?, email=?, department=?, status=?, updatedAt=? WHERE userId = ?`,
       [
         data.userName,
-        data.fullName,
-        data.address,
-        data.postCode,
-        data.city,
-        data.country,
-        data.gender,
         data.email,
-        data.password,
-        data.phoneNumber,
+        data.department,
+        data.status,
+        data.updatedAt,
         data.userId
       ],
       (error, results, fields) => {

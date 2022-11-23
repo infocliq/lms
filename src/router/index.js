@@ -9,6 +9,7 @@ import { Letters } from '../views/letters'
 import { CreateLetters } from '../views/letters/create'
 import { Users } from '../views/users'
 import { Categories } from '../views/categories'
+import { Departments } from '../views/departments'
 import { getIsAdmin } from '../common/sessions/common'
 import { ErrorPage } from '../views/error/404'
 
@@ -29,6 +30,7 @@ export default () => {
                   <Route path='/assign-letter' exact component={CreateLetters} />
                   <Route path='/users' exact component={Users} />
                   <Route path='/categories' exact component={Categories} />
+                  <Route path='/departments' exact component={Departments} />
                   <Route path='/letters' exact component={Letters} />
                 </>
                 : <Route path='/letters' exact component={Letters} />
