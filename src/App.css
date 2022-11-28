@@ -357,3 +357,42 @@
     font-weight: 600 !important;
     text-transform: uppercase !important;
 }
+
+.row>* .primary-option {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.font-capitalize {
+    text-transform: capitalize;
+}
+
+.navbar-vertical {
+    background-color: #15181f !important;
+}
+
+@media (min-width: 992px) {
+    .navbar-vertical.navbar-expand-lg+.navbar-top .navbar-logo {
+        background-color: #15181f !important;
+        border-bottom-color: rgba(54, 54, 54, 0.63) !important;
+    }
+}
+
+.status-badge .badge {
+    width: 100px;
+}
+
+.priority-badge .badge {
+    width: 63px;
+}
+
+.tableRow {
+    cursor: pointer;
+}
+
+.tableRow:hover {
+    background-color: #fafafa;
+}
+.btnc-l{
+    margin-right: 15px;
+}

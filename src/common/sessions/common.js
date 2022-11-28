@@ -1,3 +1,6 @@
+import React from 'react'
+import { baseUrl } from "../../constants/constants";
+import Axios from 'axios';
 
 // return the user data from the session storage
 export const getUser = () => {
@@ -34,4 +37,22 @@ export const setUserSession = (token, userId, isAdmin) => {
 // set the admin or user verify from the session storage
 export const setVerifyAdmin = (success) => {
     sessionStorage.setItem('role', success);
+}
+
+export const Auth = async (user) => {
+    const userId = getUser();
+    const token = getToken();
+    try {
+        const { data } = await Axios.get(
+            baseUrl + "/api/users/" + userId, {
+            headers: {
+                authorization: `Bearer ${token}`,
+                userId: userId
+            }
+        });
+        return data.user
+
+    } catch (ex) {
+        console.log(ex);
+    }
 }

@@ -63,7 +63,7 @@ export const Users = () => {
                                                 <th class="white-space-nowrap fs--1 align-middle ps-0">
                                                     <div class="form-check mb-0 fs-0"><input class="form-check-input" type="checkbox" /></div>
                                                 </th>
-                                                <th class="sort white-space-nowrap align-middle" scope="col" id='tb3' data-sort="product">Username</th>
+                                                <th class="sort white-space-nowrap align-middle" scope="col" id='tb3' data-sort="product">USERNAME</th>
                                                 <th class="sort align-middle text-start" scope="col" data-sort="price" id='tb3'>EMAIL</th>
                                                 <th class="sort align-middle text-start" scope="col" data-sort="price" id='tb5'>DEPARTMENT</th>
                                                 <th class="sort align-middle" scope="col" data-sort="tags" id='tb5'>STATUS</th>

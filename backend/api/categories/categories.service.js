@@ -23,7 +23,7 @@ module.exports = {
 
     getAll: callBack => {
         pool.query(
-            `SELECT * FROM category  ORDER BY id DESC`,
+            `SELECT * FROM category  ORDER BY updatedAt DESC`,
             [],
             (error, results, fields) => {
                 if (error) {

@@ -15,6 +15,7 @@ app.use(cors(corsOptions));
 const userRouter = require("./api/users/user.router");
 const categoryRouter = require("./api/categories/categories.router");
 const departmentRoter = require("./api/departments/departments.router");
+const letterRoter = require("./api/letters/letters.router");
 
 app.use(express.json());
 
@@ -32,6 +33,7 @@ app.use(express.static('storage/images'))
 app.use("/api/users", userRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/departments", departmentRoter);
+app.use("/api/letters", letterRoter);
 
 const port = process.env.PORT || 4000;
 
@@ -70,7 +72,7 @@ var con = mysql.createConnection({
 // con.connect(function (err) {
 //   if (err) throw err;
 //   console.log("Connected!");
-//   var sql = "CREATE TABLE category (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, categoryName VARCHAR(255), status BOOLEAN NOT NULL DEFAULT 1, createdAt date, updatedAt date)";
+//   var sql = "CREATE TABLE category (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, categoryName VARCHAR(255), status BOOLEAN NOT NULL DEFAULT 1, isPrimary BOOLEAN NOT NULL DEFAULT 0, createdAt date, updatedAt date)";
 //   con.query(sql, function (err, result) {
 //     if (err) throw err;
 //     console.log("Table created");
@@ -93,12 +95,25 @@ var con = mysql.createConnection({
 // con.connect(function (err) {
 //   if (err) throw err;
 //   console.log("Connected!");
-//   var sql = "CREATE TABLE letters (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, issuedDate DATE, registerPostId VARCHAR(255), letterFrom VARCHAR(255), subject VARCHAR(255), department VARCHAR(255), status VARCHAR(20), priority VARCHAR(20), description VARCHAR(255), createdAt DATE, updatedAt DATE)";
+//   var sql = "CREATE TABLE letters (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, issuedDate DATE, registerPostId VARCHAR(255), letterFrom VARCHAR(255), subject VARCHAR(255), department VARCHAR(255), status VARCHAR(255), priority VARCHAR(255), description VARCHAR(255), createdAt DATE, updatedAt DATE)";
 //   con.query(sql, function (err, result) {
 //     if (err) throw err;
 //     console.log("Table created");
 //   });
 // });
+
+
+//Create reply table
+// con.connect(function (err) {
+//   if (err) throw err;
+//   console.log("Connected!");
+//   var sql = "CREATE TABLE replies (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, letterId INT, reply VARCHAR(255), status VARCHAR(255), user VARCHAR(255), department VARCHAR(255), createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, updatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)";
+//   con.query(sql, function (err, result) {
+//     if (err) throw err;
+//     console.log("Table created");
+//   });
+// });
+
 
 
 

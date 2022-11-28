@@ -6,6 +6,7 @@ import Main from '../layouts/Main'
 import Login from '../authentication/login'
 import { Dashboard } from '../views/dashboard'
 import { Letters } from '../views/letters'
+import { LetterUpdate } from '../views/letters/update'
 import { CreateLetters } from '../views/letters/create'
 import { Users } from '../views/users'
 import { Categories } from '../views/categories'
@@ -32,8 +33,13 @@ export default () => {
                   <Route path='/categories' exact component={Categories} />
                   <Route path='/departments' exact component={Departments} />
                   <Route path='/letters' exact component={Letters} />
+                  <Route path='/reply' exact component={LetterUpdate} />
                 </>
-                : <Route path='/letters' exact component={Letters} />
+                :
+                <>
+                  <Route path='/letters' exact component={Letters} />
+                  <Route path='/letters/:id' exact component={LetterUpdate} />
+                </>
               }
               <Route path='*' exact={true} component={ErrorPage} />
 

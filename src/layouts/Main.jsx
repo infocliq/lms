@@ -54,7 +54,6 @@ export default ({ children }) => {
             console.log(ex);
         }
     }
-
     return (
         <>
             <SideNav />
@@ -62,5 +61,6 @@ export default ({ children }) => {
             {children}
         </>
     )
+
 }
 
