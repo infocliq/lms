@@ -2,17 +2,18 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Footer } from '../components/footer';
 import { ToastContainer } from 'react-toastify';
 import { Closed, Complete, Pending, Processing } from '../../common/badges/statusBadges';
-import { ListReply, Reply } from '../../api/letter';
+import { ListById, ListReply, Reply } from '../../api/letter';
 import { Editor } from '@tinymce/tinymce-react';
 import { paramsId } from '../../constants/constants';
 import { Auth } from '../../common/sessions/common';
 import moment from 'moment';
 
 export const LetterUpdate = () => {
-
+    
     const editorRef = useRef(null);
     const [auth, setAuth] = useState([]);
     const [replies, setReplies] = useState([]);
+    const [letter, setLetter] = useState([]);
     const [formData, setFormData] = useState(
         {
             status: '',
@@ -25,6 +26,7 @@ export const LetterUpdate = () => {
     useEffect(() => {
         Auth().then(setAuth)
         handleRefresh()
+        ListById().then(setLetter)
     }, [])
 
     // REFRESH TABLE DATA
@@ -65,7 +67,7 @@ export const LetterUpdate = () => {
                                             <option selected="selected">Select...</option>
                                             <option value="processing">Processing</option>
                                             <option value="pending">Pending</option>
-                                            <option value="canceled">Cancel</option>
+                                            <option value="closed">Cancel</option>
                                             <option value="completed">Complete</option>
                                         </select>
                                         <label for="floatingInputGrid">Status</label>
@@ -114,7 +116,8 @@ export const LetterUpdate = () => {
                         </div>
 
                         <div class="col-xl-6 offset-sm">
-                            <h3 class="g-3 mb-4">Replies</h3>
+                            <h3 class="g-3 mb-4">Replies & description</h3>
+                            <p dangerouslySetInnerHTML={{ __html: letter.description }}></p>
                             <div class="row g-3 mb-6">
                                 <div class="col-sm-12 col-md-12">
                                     {replies.length === 0 ?
@@ -149,7 +152,7 @@ export const LetterUpdate = () => {
                                                                             <Processing />
                                                                             : reply.status === 'pending' ?
                                                                                 <Pending />
-                                                                                : reply.status === 'canceled' ?
+                                                                                : reply.status === 'closed' ?
                                                                                     <Closed />
                                                                                     : reply.status === 'completed' ?
                                                                                         <Complete />

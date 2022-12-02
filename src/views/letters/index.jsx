@@ -1,25 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import { Footer } from '../components/footer';
 import { ToastContainer } from "react-toastify";
-import { List } from '../../api/letter';
+import { FiltterByDepartment, FiltterByPriority, FiltterByPriorityDep, FiltterByStatus, FiltterByStatusDep, GetByDepartment, List, ListDepartments } from '../../api/letter';
 import Pagination from "../../common/pagination/pagination";
 import { Assigneded, Closed, Complete, Pending, Processing } from '../../common/badges/statusBadges';
 import { High, Low, Medium, Urgent } from '../../common/badges/priorityBadges';
 import moment from 'moment';
 import { useHistory } from "react-router-dom";
-import { Preloader } from '../components/preloader'
+import { paramsDepartment, paramsId, paramsPriority, paramsStatus } from '../../constants/constants';
+import { Auth, getRole, getUser } from '../../common/sessions/common';
 
 export const Letters = () => {
   const navigate = useHistory();
   const [letters, setLetter] = useState([]);
-  const [visible, setVisible] = useState(false);
-  const [letterId, setLetterId] = useState();
-  const [updateData, setUpdateData] = useState({
-    id: '',
-    departmentName: '',
-    updatedAt: new Date(),
-  });
-
+  const [departments, setDepartment] = useState([])
+  const [user, setUser] = useState([]);
+  const isAdmin = user.admin;
+  
   // PAGINATION
   let PageSize = 5;
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,10 +24,54 @@ export const Letters = () => {
   const lastPageIndex = firstPageIndex + PageSize;
   const currentItems = letters.slice(firstPageIndex, lastPageIndex);
 
+  const pending = letters.filter(letter => letter.status === 'pending');
+  const processing = letters.filter(letter => letter.status === 'processing');
+  const completed = letters.filter(letter => letter.status === 'completed');
+  const closed = letters.filter(letter => letter.status === 'closed');
+
+  const userId = getUser();
+  const verifyInstant = getRole();
+
   useEffect(() => {
-    handleRefresh()
+    Auth().then(setUser)
+
+    if (verifyInstant === '1') {
+      isAdminhandler()
+    } else {
+      isUserhandler()
+    }
+
   }, []);
 
+  // ADMIN HANDLER
+  const isAdminhandler = () => {
+    ListDepartments().then(setDepartment)
+    if (paramsStatus) {
+      FiltterByStatus().then(setLetter)
+    } else if (paramsPriority) {
+      FiltterByPriority().then(setLetter)
+    } else if (paramsDepartment) {
+      FiltterByDepartment().then(setLetter)
+    } else {
+      handleRefresh()
+    }
+  }
+
+  // USER HANDLER
+  const isUserhandler = () => {
+    if (paramsId === userId) {
+      if (paramsStatus && paramsDepartment) {
+        FiltterByStatusDep().then(setLetter)
+      } else if (paramsPriority && paramsDepartment) {
+        FiltterByPriorityDep().then(setLetter)
+      } else {
+        GetByDepartment().then(setLetter)
+      }
+    } else {
+      GetByDepartment().then(setLetter)
+      navigate.push('/letters')
+    }
+  }
   // REFRESH TABLE DATA
   const handleRefresh = () => {
     List().then(setLetter)
@@ -56,10 +97,12 @@ export const Letters = () => {
             </div>
           </div>
           <ul class="nav nav-links mb-3 mb-lg-2 mx-n3">
-            <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">All <span class="text-700 fw-semi-bold">(68817)</span></a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Replayed <span class="text-700 fw-semi-bold">(70348)</span></a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Pending <span class="text-700 fw-semi-bold">(17)</span></a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Canceled <span class="text-700 fw-semi-bold">(810)</span></a></li>
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="/letters">All <span class="text-700 fw-semi-bold">({letters.length})</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Processing <span class="text-700 fw-semi-bold">({processing.length})</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Pending <span class="text-700 fw-semi-bold">({pending.length})</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Closed <span class="text-700 fw-semi-bold">({closed.length})</span></a></li>
+
+            <li class="nav-item"><a class="nav-link" href="#">Completed <span class="text-700 fw-semi-bold">({completed.length})</span></a></li>
           </ul>
           <div id="products" data-list='{"valueNames":["product","price","category","tags","vendor","time"],"page":10,"pagination":true}'>
             <div class="mb-4">
@@ -73,35 +116,62 @@ export const Letters = () => {
                 </div>
                 <div class="col-auto scrollbar overflow-hidden-y flex-grow-1">
                   <div class="btn-group position-static" role="group">
-                    <div class="btn-group position-static text-nowrap"><button class="btn btn-phoenix-secondary px-7 flex-shrink-0" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"> Category<span class="fas fa-angle-down ms-2"></span></button>
+                    <div class="btn-group position-static text-nowrap">
+                      <button class="btn btn-phoenix-secondary px-7 flex-shrink-0" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
+                        Status<span class="fas fa-angle-down ms-2"></span>
+                      </button>
+                      {isAdmin ?
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href={"/letters"}>All</a></li>
+                          <li><a class="dropdown-item" href={"/letters?status=completed"}>Completed</a></li>
+                          <li><a class="dropdown-item" href={"/letters?status=pending"}>Pending</a></li>
+                          <li><a class="dropdown-item" href={"/letters?status=processing"}>Processing</a></li>
+                          <li><a class="dropdown-item" href={"/letters?status=closed"}>Closed</a></li>
+                        </ul>
+                        :
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href={"/letters"}>All</a></li>
+                          <li><a class="dropdown-item" href={"/letters?status=completed&department=" + user.department + "&id=" + user.userId}>Completed</a></li>
+                          <li><a class="dropdown-item" href={"/letters?status=pending&department=" + user.department + "&id=" + user.userId}>Pending</a></li>
+                          <li><a class="dropdown-item" href={"/letters?status=processing&department=" + user.department + "&id=" + user.userId}>Processing</a></li>
+                          <li><a class="dropdown-item" href={"/letters?status=closed&department=" + user.department + "&id=" + user.userId}>Closed</a></li>
+                        </ul>
+                      }
+                    </div>
+                    <div class="btn-group position-static text-nowrap">
+                      <button class="btn btn-phoenix-secondary px-7 flex-shrink-0" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
+                        Priority<span class="fas fa-angle-down ms-2"></span>
+                      </button>
                       <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        <li>
-                          <hr class="dropdown-divider" />
-                        </li>
-                        <li><a class="dropdown-item" href="#">Separated link</a></li>
+                        <li><a class="dropdown-item" href={"/letters"}>All</a></li>
+                        <li><a class="dropdown-item" href={"/letters?priority=low&department=" + user.department + "&id=" + user.userId}>Low</a></li>
+                        <li><a class="dropdown-item" href={"/letters?priority=high&department=" + user.department + "&id=" + user.userId}>High</a></li>
+                        <li><a class="dropdown-item" href={"/letters?priority=urgent&department=" + user.department + "&id=" + user.userId}>Urgent</a></li>
+                        <li><a class="dropdown-item" href={"/letters?priority=medium&department=" + user.department + "&id=" + user.userId}>Medium</a></li>
                       </ul>
                     </div>
-                    <div class="btn-group position-static text-nowrap"><button class="btn btn-sm btn-phoenix-secondary px-7 flex-shrink-0" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"> Vendor<span class="fas fa-angle-down ms-2"></span></button>
-                      <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        <li>
-                          <hr class="dropdown-divider" />
-                        </li>
-                        <li><a class="dropdown-item" href="#">Separated link</a></li>
-                      </ul>
-                    </div><button class="btn btn-sm btn-phoenix-secondary px-7 flex-shrink-0">More filters</button>
+                    {isAdmin ?
+                      <div class="btn-group position-static text-nowrap">
+                        <button class="btn btn-sm btn-phoenix-secondary px-7 flex-shrink-0" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
+                          Department<span class="fas fa-angle-down ms-2"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href={"/letters"}>All</a></li>
+                          {departments.map(department => (
+                            <li><a class="dropdown-item" href={"/letters?department=" + department.departmentName}>{department.departmentName}</a></li>
+                          ))}
+                        </ul>
+                      </div>
+                      : ''}
                   </div>
                 </div>
-                <div class="col-auto">
-                  <a href='/assign-letter' class="btn btn-primary">
-                    <span class="fas fa-plus me-2"></span>Assign new letter
-                  </a>
-                </div>
+                {isAdmin ?
+                  <div class="col-auto">
+                    <a href='/assign-letter' class="btn btn-primary">
+                      <span class="fas fa-plus me-2"></span>Assign new letter
+                    </a>
+                  </div>
+                  : ''}
               </div>
             </div>
             <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
@@ -160,7 +230,7 @@ export const Letters = () => {
                               <Assigneded />
                               : letter.status === 'pending' ?
                                 <Pending />
-                                : letter.status === 'canceled' ?
+                                : letter.status === 'closed' ?
                                   <Closed />
                                   : letter.status === 'processing' ?
                                     <Processing />

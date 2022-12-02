@@ -8,13 +8,29 @@ const {
     updateLetters,
     deleteLetters,
     createReply,
-    getReplyByLetterId
+    getReplyByLetterId,
+    getLettersByStatus,
+    getLettersByDepartment,
+    getLettersByPriority,
+    getLettersById,
+    getSummaryByMonth,
+    getSummaryByDay,
+    getLettersByStatusForDep,
+    getLettersByPriorityForDep
 } = require("./letters.controller");
 
-router.get("/", checkToken, isAdmin, getLetters);
+router.get("/", checkToken, getLetters);
+router.get("/month-summary", checkToken, isAdmin, getSummaryByMonth);
+router.get("/day-summary", checkToken, isAdmin, getSummaryByDay);
+router.get("/:id", checkToken, getLettersById);
 router.post("/create", checkToken, isAdmin, createLetters);
 router.patch("/", checkToken, isAdmin, updateLetters);
 router.delete("/", checkToken, isAdmin, deleteLetters);
+router.get("/bystatus/:status", checkToken, getLettersByStatus);
+router.get("/bydepartment/:department", checkToken, getLettersByDepartment);
+router.get("/bypriority/:priority", checkToken, isAdmin, getLettersByPriority);
+router.get("/bydepstatus/:status/:department", checkToken, getLettersByStatusForDep,);
+router.get("/bydeppriority/:priority/:department", checkToken, getLettersByPriorityForDep);
 
 router.post("/reply/create", checkToken, createReply);
 router.get("/reply/:id", checkToken, getReplyByLetterId);

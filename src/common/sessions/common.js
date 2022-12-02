@@ -23,13 +23,18 @@ export const getToken = () => {
     return sessionStorage.getItem('token') || null;
 }
 
+// return the role from the session storage
+export const getRole = () => {
+    return sessionStorage.getItem('role') || null;
+}
+
 // remove the token and user from the session storage
 export const removeUserSession = () => {
     sessionStorage.clear();
 }
 
 // set the token and user from the session storage
-export const setUserSession = (token, userId, isAdmin) => {
+export const setUserSession = (token, userId) => {
     sessionStorage.setItem('token', token);
     sessionStorage.setItem('isAuth', userId);
 }

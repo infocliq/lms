@@ -3,7 +3,7 @@ import axios from "axios";
 import { Editor } from '@tinymce/tinymce-react';
 import { toast } from "react-toastify";
 import { getToken, getUser } from "../common/sessions/common";
-import { baseUrl, paramsId } from "../constants/constants";
+import { baseUrl, paramsDepartment, paramsId, paramsPriority, paramsStatus } from "../constants/constants";
 import Select from "react-select";
 
 const token = getToken()
@@ -360,6 +360,48 @@ export async function List() {
     }
 }
 
+// LIST MONTH SUMMARY DATA
+export async function ListMonthSummary() {
+    try {
+        const { data } = await axios.get(
+            baseUrl + "/api/letters/month-summary", {
+            headers
+        });
+        return data.summary
+
+    } catch (ex) {
+        console.log(ex);
+    }
+}
+
+// LIST DAY SUMMARY DATA
+export async function ListDaySummary() {
+    try {
+        const { data } = await axios.get(
+            baseUrl + "/api/letters/day-summary", {
+            headers
+        });
+        return data.summary
+
+    } catch (ex) {
+        console.log(ex);
+    }
+}
+
+// LIST DATA BY ID
+export async function ListById() {
+    try {
+        const { data } = await axios.get(
+            baseUrl + "/api/letters/" + paramsId, {
+            headers
+        });
+        return data.letter
+
+    } catch (ex) {
+        console.log(ex);
+    }
+}
+
 
 // UPDATE DATA
 export const Update = (formData) => {
@@ -427,13 +469,110 @@ export async function ListReply() {
     }
 }
 
+// LIST FILTTER DATA
+export async function FiltterByStatus() {
+    try {
+        const { data } = await axios.get(
+            baseUrl + "/api/letters/bystatus/" + paramsStatus, {
+            headers
+        });
+        return data.status
+
+    } catch (ex) {
+        console.log(ex);
+    }
+}
+
+export async function FiltterByPriority() {
+    try {
+        const { data } = await axios.get(
+            baseUrl + "/api/letters/bypriority/" + paramsPriority, {
+            headers
+        });
+        return data.priority
+
+    } catch (ex) {
+        console.log(ex);
+    }
+}
+
+export async function FiltterByDepartment() {
+    try {
+        const { data } = await axios.get(
+            baseUrl + "/api/letters/bydepartment/" + paramsDepartment, {
+            headers
+        });
+        return data.departments
+
+    } catch (ex) {
+        console.log(ex);
+    }
+}
+
+// LIST FILTTER BY DEPARTMENT
+export async function FiltterByStatusDep() {
+    try {
+        const { data } = await axios.get(
+            baseUrl + "/api/letters/bydepstatus/" + paramsStatus + "/" + paramsDepartment, {
+            headers
+        });
+        return data.status
+
+    } catch (ex) {
+        console.log(ex);
+    }
+}
+
+export async function FiltterByPriorityDep() {
+    try {
+        const { data } = await axios.get(
+            baseUrl + "/api/letters/bydeppriority/" + paramsPriority + "/" + paramsDepartment, {
+            headers
+        });
+        return data.priority
+
+    } catch (ex) {
+        console.log(ex);
+    }
+}
+
+
+// GET LETTER BY DEPARTMENTS
+export async function GetByDepartment() {
+    try {
+        const { data } = await axios.get(
+            baseUrl + "/api/letters/bydepartment/Plannings", {
+            headers
+        });
+        return data.departments
+
+    } catch (ex) {
+        console.log(ex);
+    }
+}
+
+// LIST DEPARTMENTS DATA
+export async function ListDepartments() {
+    try {
+        const { data } = await axios.get(
+            baseUrl + "/api/departments", {
+            headers
+        });
+        return data.categories
+
+    } catch (ex) {
+        console.log(ex);
+    }
+}
+
+
 // REPLY
 export const Reply = (formData) => {
     const [progress, setProgress] = useState(false);
 
-    useEffect(()=>{
+    useEffect(() => {
 
-    },[]); 
+    }, []);
 
     const handleSubmit = async (event) => {
         setProgress(true)

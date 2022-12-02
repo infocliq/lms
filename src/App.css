@@ -393,6 +393,11 @@
 .tableRow:hover {
     background-color: #fafafa;
 }
-.btnc-l{
+
+.btnc-l {
     margin-right: 15px;
+}
+
+#textCapitalize {
+    text-transform: capitalize;
 }

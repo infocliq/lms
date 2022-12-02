@@ -13,7 +13,7 @@ import { Categories } from '../views/categories'
 import { Departments } from '../views/departments'
 import { getIsAdmin } from '../common/sessions/common'
 import { ErrorPage } from '../views/error/404'
-
+import { UserSettings } from '../views/settings'
 export default () => {
   const isAdmin = getIsAdmin()
   const navigate = useHistory()
@@ -34,11 +34,13 @@ export default () => {
                   <Route path='/departments' exact component={Departments} />
                   <Route path='/letters' exact component={Letters} />
                   <Route path='/reply' exact component={LetterUpdate} />
+                  <Route path='/settings' exact component={UserSettings} />
                 </>
                 :
                 <>
                   <Route path='/letters' exact component={Letters} />
-                  <Route path='/letters/:id' exact component={LetterUpdate} />
+                  <Route path='/reply' exact component={LetterUpdate} />
+                  <Route path='/settings' exact component={UserSettings} />
                 </>
               }
               <Route path='*' exact={true} component={ErrorPage} />

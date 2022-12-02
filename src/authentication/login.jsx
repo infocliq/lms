@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { getIsAdmin, getToken, getUser, setUserSession } from "../common/sessions/common";
 import { baseUrl } from "../constants/constants"
-import { WelcomePreloader } from '../views/components/preloader'
+// import { WelcomePreloader } from '../views/components/preloader'
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
@@ -36,6 +36,7 @@ export default function Login() {
           setLoading(false);
           setUserSession(data.token, data.userId);
           navigate.push('/letters');
+          window.location.reload(false)
         }
         else {
           setLoading(false);
@@ -54,7 +55,7 @@ export default function Login() {
 
   return (
     <>
-      <WelcomePreloader />
+      {/* <WelcomePreloader /> */}
       <ToastContainer
         position="top-center"
         autoClose={5000}

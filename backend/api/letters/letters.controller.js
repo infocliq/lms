@@ -4,7 +4,15 @@ const {
     getAll,
     deleteById,
     getReplyByLetterID,
-    createReply
+    createReply,
+    getByStatus,
+    getByDepartment,
+    getByPriority,
+    letterById,
+    getSummaryMonth,
+    getSummaryDay,
+    getByStatusForDep,
+    getByPriorityForDep
 } = require("./letters.service");
 
 module.exports = {
@@ -34,6 +42,32 @@ module.exports = {
             return res.json({
                 success: 1,
                 letters: results
+            });
+        });
+    },
+
+    getSummaryByMonth: (req, res) => {
+        getSummaryMonth((err, results) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            return res.json({
+                success: 1,
+                summary: results
+            });
+        });
+    },
+
+    getSummaryByDay: (req, res) => {
+        getSummaryDay((err, results) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            return res.json({
+                success: 1,
+                summary: results
             });
         });
     },
@@ -71,6 +105,138 @@ module.exports = {
             });
         });
     },
+
+    getLettersByStatus: (req, res) => {
+        const id = req.params.status;
+        getByStatus(id, (err, results) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            if (!results) {
+                return res.json({
+                    success: 0,
+                    message: "Record not found"
+                });
+            }
+            results.password = undefined;
+            return res.json({
+                success: 1,
+                status: results
+            });
+        });
+    },
+
+    getLettersByDepartment: (req, res) => {
+        const id = req.params.department;
+        getByDepartment(id, (err, results) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            if (!results) {
+                return res.json({
+                    success: 0,
+                    message: "Record not found"
+                });
+            }
+            results.password = undefined;
+            return res.json({
+                success: 1,
+                departments: results
+            });
+        });
+    },
+
+    getLettersByPriority: (req, res) => {
+        const id = req.params.priority;
+        getByPriority(id, (err, results) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            if (!results) {
+                return res.json({
+                    success: 0,
+                    message: "Record not found"
+                });
+            }
+            results.password = undefined;
+            return res.json({
+                success: 1,
+                priority: results
+            });
+        });
+    },
+
+
+    getLettersByStatusForDep: (req, res) => {
+        const status = req.params.status;
+        const department = req.params.department;
+        getByStatusForDep(status, department, (err, results) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            if (!results) {
+                return res.json({
+                    success: 0,
+                    message: "Record not found"
+                });
+            }
+            results.password = undefined;
+            return res.json({
+                success: 1,
+                status: results
+            });
+        });
+    },
+
+    getLettersByPriorityForDep: (req, res) => {
+        const priority = req.params.priority;
+        const department = req.params.department;
+
+        getByPriorityForDep(priority, department, (err, results) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            if (!results) {
+                return res.json({
+                    success: 0,
+                    message: "Record not found"
+                });
+            }
+            results.password = undefined;
+            return res.json({
+                success: 1,
+                priority: results
+            });
+        });
+    },
+
+
+    getLettersById: (req, res) => {
+        const id = req.params.id;
+        letterById(id, (err, results) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            if (!results) {
+                return res.json({
+                    success: 0,
+                    message: "Record not found"
+                });
+            }
+            results.password = undefined;
+            return res.json({
+                success: 1,
+                letter: results
+            });
+        });
+    },
+
 
     //   REPLY
 
